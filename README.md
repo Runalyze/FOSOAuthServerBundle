@@ -1,5 +1,6 @@
 FOSOAuthServerBundle
 ====================
+RUNALYZE adjustments
 
 [![Build Status](https://secure.travis-ci.org/FriendsOfSymfony/FOSOAuthServerBundle.png)](http://travis-ci.org/FriendsOfSymfony/FOSOAuthServerBundle)
 
