@@ -162,7 +162,7 @@ class AuthorizeController
 
         $event = $this->eventDispatcher->dispatch(
             OAuthEvent::PRE_AUTHORIZATION_PROCESS,
-            new OAuthEvent($user, $this->getClient())
+            new OAuthEvent($user, $this->getClient(), false)
         );
 
         if (true === $formHandler->process()) {
