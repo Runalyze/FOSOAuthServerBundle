@@ -29,6 +29,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Runalyze\Profile\Api\Scopes\ApiScopeProfile;
 
 /**
  * Controller handling basic authorization.
@@ -164,14 +165,20 @@ class AuthorizeController
             new OAuthEvent($user, $this->getClient())
         );
 
-        if ($event->isAuthorizedClient()) {
-            $scope = $request->get('scope', null);
-
-            return $this->oAuth2Server->finishClientAuthorization(true, $user, $request, $scope);
-        }
-
         if (true === $formHandler->process()) {
             return $this->processSuccess($user, $formHandler, $request);
+        }
+
+        $getScopes = (!empty($form->getData()->scope)) ? explode(' ', $form->getData()->scope) : array();
+        foreach($getScopes as $scope) {
+            if (ApiScopeProfile::isValidName($scope)) {
+                $scopes[] = ApiScopeProfile::get($scope);
+            }
+        }
+
+        if ($event->isAuthorizedClient()) {
+            $scope = implode(" ", array_map(function($obj) { return $obj->getInternalProfileEnum(); }, $scopes));
+            return $this->oAuth2Server->finishClientAuthorization(true, $user, $request, $scope);
         }
 
         return $this->templating->renderResponse(
@@ -179,6 +186,7 @@ class AuthorizeController
             array(
                 'form'   => $form->createView(),
                 'client' => $this->getClient(),
+                'requestedScopes' => $scopes
             )
         );
     }
