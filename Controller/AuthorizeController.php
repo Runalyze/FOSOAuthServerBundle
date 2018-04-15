@@ -171,7 +171,7 @@ class AuthorizeController
 
         $getScopes = (!empty($form->getData()->scope)) ? explode(' ', $form->getData()->scope) : array();
         foreach($getScopes as $scope) {
-            if (ApiScopeProfile::isValidName($scope)) {
+            if(in_array($scope, $this->getClient()->getAllowedScopes()) && ApiScopeProfile::isValidName($scope)) {
                 $scopes[] = ApiScopeProfile::get($scope);
             }
         }
