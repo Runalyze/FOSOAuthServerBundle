@@ -37,15 +37,23 @@ class OAuthEvent extends Event
     private $isAuthorizedClient;
 
     /**
+     * @var array
+     */
+    private $scopes;
+
+
+    /**
      * @param UserInterface   $user
      * @param ClientInterface $client
      * @param bool            $isAuthorizedClient
+     * @param array $scopes
      */
-    public function __construct(UserInterface $user, ClientInterface $client, $isAuthorizedClient = false)
+    public function __construct(UserInterface $user, ClientInterface $client, $isAuthorizedClient = false, array $scopes = [] )
     {
         $this->user = $user;
         $this->client = $client;
         $this->isAuthorizedClient = $isAuthorizedClient;
+        $this->scopes = $scopes;
     }
 
     /**
@@ -78,5 +86,13 @@ class OAuthEvent extends Event
     public function getClient()
     {
         return $this->client;
+    }
+
+    /**
+     * @return array $scopes
+     */
+    public function getScopes()
+    {
+        return $this->scopes;
     }
 }
