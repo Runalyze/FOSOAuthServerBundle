@@ -17,7 +17,7 @@
     ],
     "require": {
         "php": "^5.5|^7.0",
-        "friendsofsymfony/oauth2-php": "~1.1",
+        "friendsofsymfony/oauth2-php": "dev-runalyze",
         "symfony/framework-bundle": "~2.8|~3.0|^4.0",
         "symfony/security-bundle": "~2.8|~3.0|^4.0",
         "symfony/dependency-injection": "^2.8|~3.0|^4.0",
@@ -55,5 +55,12 @@
         "branch-alias": {
             "dev-master": "1.5-dev"
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/Runalyze/oauth2-php.git"
+        }
+    ]
+
 }
